@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="th" class="size-large">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Health Point - สะสมแต้มสุขภาพเพื่อผู้สูงอายุ</title>
+    <!-- Tailwind CSS for modern utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontSize: {
+                        'xs': ['calc(0.75rem * var(--text-scale, 1))', { lineHeight: 'calc(1rem * var(--text-scale, 1))' }],
+                        'sm': ['calc(0.875rem * var(--text-scale, 1))', { lineHeight: 'calc(1.25rem * var(--text-scale, 1))' }],
+                        'base': ['calc(1rem * var(--text-scale, 1))', { lineHeight: 'calc(1.5rem * var(--text-scale, 1))' }],
+                        'lg': ['calc(1.125rem * var(--text-scale, 1))', { lineHeight: 'calc(1.75rem * var(--text-scale, 1))' }],
+                        'xl': ['calc(1.25rem * var(--text-scale, 1))', { lineHeight: 'calc(1.75rem * var(--text-scale, 1))' }],
+                        '2xl': ['calc(1.5rem * var(--text-scale, 1))', { lineHeight: 'calc(2rem * var(--text-scale, 1))' }],
+                        '3xl': ['calc(1.875rem * var(--text-scale, 1))', { lineHeight: 'calc(2.25rem * var(--text-scale, 1))' }],
+                        '4xl': ['calc(2.25rem * var(--text-scale, 1))', { lineHeight: 'calc(2.5rem * var(--text-scale, 1))' }],
+                        '5xl': ['calc(3rem * var(--text-scale, 1))', { lineHeight: 'calc(1 * var(--text-scale, 1))' }],
+                        '6xl': ['calc(3.75rem * var(--text-scale, 1))', { lineHeight: 'calc(1 * var(--text-scale, 1))' }],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome icons for clear, recognisable senior UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Prompt (Very readable and friendly for Thai elders) -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f0f4f8;
+            font-size: calc(1rem * var(--text-scale, 1));
+        }
+        /* Custom font size classes for senior accessibility feature */
+                :root {
+            --text-scale: 1;
+        }
+        html.size-normal {
+            --text-scale: 1.5;
+            font-size: 100%;
+        }
+        html.size-large {
+            --text-scale: 1.8;
+            font-size: 100%;
+        }
+        html.size-xlarge {
+            --text-scale: 2.2;
+            font-size: 100%;
+        }
+        html.size-xxlarge {
+            --text-scale: 2.7;
+            font-size: 100%;
+        }
+        /* Tap targets feedback */
+        .btn-senior {
+            transition: all 0.2s ease;
+        }
+        .btn-senior:active {
+            transform: scale(0.95);
+        }
+        /* Custom scrollbar for visual cleanliness */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+        .ai-pulse {
+            animation: pulse-ring 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 break-keep leading-snug" id="mainBody">
+
+    <!-- App Container representing a premium mobile-tablet display nested nicely on desktop, but fully responsive on mobile devices -->
+    <div class="max-w-md mx-auto min-h-screen bg-[#F6F8FC] shadow-2xl flex flex-col relative pb-32 overflow-x-hidden">
+        
+        <!-- Top Accessibility & Navigation Header -->
+        <header class="bg-[#EC2127] text-white p-4 sticky top-0 z-40 shadow-md">
+            <div class="flex flex-wrap justify-between items-center gap-3">
+                <!-- Branding / Title -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <img src="Logo/Gemini_Generated_Image_gd63lpgd63lpgd63-removebg-preview.png" alt="True Health Point" class="w-11 h-11 object-contain flex-shrink-0">
+                    <h1 class="text-xl font-bold tracking-wide">True Health Point</h1>
+                </div>
+                <!-- Accessibility Controls (Font Resizer & Voice Assist Indicator) -->
+                <div class="flex items-center gap-2">
+                    <button onclick="changeFontSize('small')" class="bg-[#b8171e] hover:bg-[#8f1217] text-xs font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ลดขนาดอักษร">ก-</button>
+                    <button onclick="changeFontSize('normal')" class="bg-white text-[#EC2127] text-sm font-bold py-1 px-3 rounded-full btn-senior" id="fontNormalBtn" title="อักษรปกติ">ก</button>
+                    <button onclick="changeFontSize('large')" class="bg-[#b8171e] hover:bg-[#8f1217] text-base font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ขยายอักษร">ก+</button>
+                    <button onclick="changeFontSize('xlarge')" class="bg-[#b8171e] hover:bg-[#8f1217] text-lg font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ขยายอักษรมาก">ก++</button>
+                    <button onclick="triggerVoiceGreeting()" class="bg-[#10B981] hover:bg-[#059669] text-white p-2 rounded-full ml-1 btn-senior flex items-center justify-center animate-pulse" title="ฟังเสียงพูดแนะนำ">
+                        <i class="fas fa-volume-up text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Senior Friendly Quick Profile (Ref: IMG_2758) -->
+            <div class="mt-4 flex flex-wrap items-center justify-between border-t border-slate-700 pt-3 gap-4">
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- High quality senior portrait avatar fallback -->
+                    <div class="relative">
+                        <img src="https://placehold.co/100x100/ecfdf5/065f46?text=👵" class="w-12 h-12 rounded-full border-2 border-emerald-400 object-cover" alt="คุณยายสมศรี" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23a7f3d0\'/><text x=\'50\' y=\'65\' font-size=\'45\' text-anchor=\'middle\'>👵</text></svg>'">
+                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-slate-900 rounded-full"></span>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="font-bold text-lg text-white">คุณยายสมศรี</span>
+                            <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full font-medium">อายุ 67 ปี</span>
+                        </div>
+                        <p class="text-xs text-slate-300"><i class="fas fa-users text-[#EC2127] mr-1"></i> กลุ่ม: ครอบครัวอบอุ่น</p>
+                    </div>
+                </div>
+                <!-- Mini TrueMoney Balance Info -->
+                <div class="text-right">
+                    <span class="text-xs text-slate-400 block">ซิงค์กับ TrueMoney</span>
+                    <span class="text-xs bg-[#b8171e] text-white px-2 py-0.5 rounded-full font-bold">True Health</span>
+                </div>
+            </div>
+            <!-- API Key Input for testing/production -->
+            <div class="mt-2 bg-slate-800 rounded-lg p-2 text-xs flex flex-wrap items-center gap-2">
+                <span class="text-slate-400 font-bold whitespace-nowrap">รหัส:</span>
+                <input type="text" id="geminiApiKey" value="1153847290" readonly class="bg-slate-950 text-white rounded-lg px-3 py-1.5 flex-1 min-w-0 focus:outline-none text-sm cursor-text select-none tracking-widest font-mono">
+            </div>
+        </header>
+
+        <script>
+            // App state management
+            let userState = {
+                points: 3420,
+                todaySteps: 7240,
+                bloodPressure: { sys: 128, dia: 82, status: 'ปกติ' },
+                streakDays: 12,
+                medsLogged: {
+                    morning: true,
+                    afternoon: true,
+                    evening: false
+                },
+                waterGlasses: 4,
+                bloodGlucose: 110,
+                teamSteps: 18640,
+                teamTarget: 50000,
+                familyMembers: [
+                    { name: "คุณสมศรี (คุณยาย)", steps: 7240, role: "me", completed: true },
+                    { name: "สมชาย (ลูกชาย)", steps: 9100, role: "son", completed: true },
+                    { name: "ปลา (หลานสาว)", steps: 2300, role: "granddaughter", completed: false }
+                ]
+            };
+
+            // Custom UI Adjustments
+            function changeFontSize(size) {
+                const body = document.documentElement;
+                body.classList.remove('size-normal', 'size-large', 'size-xlarge', 'size-xxlarge');
+                
+                // Reset active styling
+                document.querySelectorAll('[title="ลดขนาดอักษร"], [title="อักษรปกติ"], [title="ขยายอักษร"], [title="ขยายอักษรมาก"]').forEach(btn => {
+                    btn.classList.remove('bg-white', 'text-[#EC2127]');
+                    btn.classList.add('bg-[#b8171e]', 'text-white');
+                });
+
+                if (size === 'small') {
+                    body.classList.add('size-normal');
+                } else if (size === 'normal') {
+                    body.classList.add('size-large');
+                } else if (size === 'large') {
+                    body.classList.add('size-xlarge');
+                } else if (size === 'xlarge') {
+                    body.classList.add('size-xxlarge');
+                }
+                
+                // Highlight the correct button
+                let activeBtn;
+                if (size === 'small') activeBtn = document.querySelector('[title="ลดขนาดอักษร"]');
+                if (size === 'normal') activeBtn = document.getElementById('fontNormalBtn');
+                if (size === 'large') activeBtn = document.querySelector('[title="ขยายอักษร"]');
+                if (size === 'xlarge') activeBtn = document.querySelector('[title="ขยายอักษรมาก"]');
+                
+                if (activeBtn) {
+                    activeBtn.classList.remove('bg-[#b8171e]', 'text-white');
+                    activeBtn.classList.add('bg-white', 'text-[#EC2127]');
+                }
+            }
+
+            // Thai Voice Synthesis Helper (Web Speech API as Local Fallback)
+            function speakThai(text) {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel(); // Stop current speaking
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'th-TH';
+                    utterance.rate = 0.95; // Slightly slower for elderly
+                    
+                    // Search for Thai voice
+                    const voices = window.speechSynthesis.getVoices();
+                    const thaiVoice = voices.find(v => v.lang.includes('th') || v.lang.includes('TH'));
+                    if (thaiVoice) {
+                        utterance.voice = thaiVoice;
+                    }
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function triggerVoiceGreeting() {
+                const text = `สวัสดีค่ะคุณยายสมศรี วันนี้สะสมคะแนนได้สามพันสี่ร้อยยี่สิบคะแนนแล้วค่ะ เดินไปแล้วเจ็ดพันสองร้อยสี่สิบก้าว รักษาสุขภาพและทำภารกิจสะสมแต้มต่อนะคะ`;
+                speakThai(text);
+                showCustomToast("📢 เสียงช่วยเหลือ: กำลังอ่านข้อมูลหน้าแรกให้ฟังค่ะ");
+            }
+        </script>
+
+        <!-- Main Content Area where different tabs load dynamically -->
+        <main class="flex-1 p-4 pb-12" id="viewContainer">
+            
+            <!-- ================= VIEW 1: HOME PAGE ================= -->
+            <section id="homeView" class="space-y-4">
+                
+                <!-- Large Points & Streak Dashboard Widget (Ref: IMG_2758) -->
+                <div class="bg-gradient-to-br from-[#EC2127] to-[#b8171e] text-white rounded-3xl p-6 shadow-xl relative overflow-hidden">
+                    <!-- Background decor elements -->
+                    <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-emerald-500/10 rounded-full blur-xl"></div>
+                    <div class="absolute -left-6 -top-6 w-24 h-24 bg-[#EC2127]/10 rounded-full blur-lg"></div>
+
+                    <div class="flex flex-wrap justify-between items-start gap-4">
+                        <div>
+                            <span class="text-xs font-medium text-slate-300 tracking-wider">แต้มสะสมของคุณ</span>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <span class="text-4xl font-black text-amber-400 tracking-tight" id="mainPointsDisplay">3,420</span>
+                                <span class="text-base font-bold text-slate-300">แต้ม</span>
+                            </div>
+                            <!-- Monetary worth conversion -->
+                            <p class="text-xs text-emerald-300 mt-2 font-medium bg-emerald-500/10 inline-block px-3 py-1 rounded-full border border-emerald-500/20">
+                                🪙 เท่ากับ <span id="moneyWorth">34</span> บาท TrueMoney <span class="text-xs text-slate-300 font-normal">(อัปเดตเมื่อกี้)</span>
+                            </p>
+                        </div>
+                        <div class="bg-slate-800/80 border border-slate-700 p-2 rounded-2xl text-center min-w-[70px]">
+                            <span class="text-xl">🔥</span>
+                            <span class="block text-xs font-bold text-slate-300 mt-1">ต่อเนื่อง</span>
+                            <span class="text-xs font-black text-amber-400" id="streakDisplay">12 วัน</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick stats strip (Ref: IMG_2758) -->
+                    <div class="grid grid-cols-2 gap-3 mt-4 pt-3 border-t border-slate-700/60 text-center">
+                        <div class="bg-slate-800/40 p-2 rounded-xl border border-slate-700/30">
+                            <span class="text-sm text-slate-300 block mb-0.5"><i class="fas fa-walking text-emerald-400 mr-1"></i> ก้าววันนี้</span>
+                            <span class="text-base font-bold text-emerald-400" id="stepStatDisplay">7,240</span>
+                        </div>
+                        <div class="bg-slate-800/40 p-2 rounded-xl border border-slate-700/30">
+                            <span class="text-sm text-slate-300 block mb-0.5"><i class="fas fa-heartbeat text-rose-400 mr-1"></i> ความดันสูงสุด</span>
+                            <span class="text-base font-bold text-amber-400" id="bpStatDisplay">128/82</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Easy Buttons Action Bar (Ref: IMG_2758) -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="openScanModal()" class="bg-white hover:bg-slate-50 border-2 border-[#f9a6a9] text-[#b8171e] rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm btn-senior">
+                        <div class="w-12 h-12 bg-[#fcd2d4] rounded-full flex items-center justify-center mb-2">
+                            <i class="fas fa-robot text-xl text-[#EC2127]"></i>
+                        </div>
+                        <span class="font-bold text-sm leading-tight">AI สแกนสลิปตรวจ</span>
+                        <span class="text-xs text-slate-500 mt-1">อัปโหลดรูปให้ AI อ่านดึงค่า</span>
+                    </button>
+                    <button onclick="simulateSyncSteps()" class="bg-white hover:bg-slate-50 border-2 border-emerald-200 text-emerald-800 rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm btn-senior">
+                        <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-2">
+                            <i class="fas fa-sync-alt text-xl text-emerald-600"></i>
+                        </div>
+                        <span class="font-bold text-sm leading-tight">กดซิงค์ก้าวเดิน</span>
+                        <span class="text-xs text-slate-500 mt-1">เพิ่มจำลอง +1,000 ก้าว</span>
+                    </button>
+                </div>
+
+                <!-- Warning / Alert Banner for Elder Safety (Ref: IMG_2758) -->
+                <div id="medWarningBanner" class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 flex flex-wrap items-center gap-3 shadow-sm">
+                    <div class="bg-amber-100 text-amber-600 p-2 rounded-full flex items-center justify-center animate-bounce">
+                        <i class="fas fa-pills text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-bold text-[#9A3412] text-sm">ยังไม่ได้บันทึกการทานยาเย็นวันนี้!</p>
+                        <p class="text-sm text-[#C2410C] mt-0.5">กดปุ่มเพื่อบันทึกและรับแต้มสะสมทันทีค่ะ</p>
+                    </div>
+                    <button onclick="openMedicationModal()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-1.5 px-3 rounded-xl text-xs shadow btn-senior">
+                        บันทึกยา
+                    </button>
+                </div>
+
+                <!-- ภารกิจของคุณ (Daily Missions Section - Ref: IMG_2758) -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-base text-slate-800 flex items-center gap-2">
+                            <i class="fas fa-tasks text-[#EC2127]"></i> ภารกิจประจําวันของคุณ
+                        </h3>
+                        <button onclick="changeTab('missions')" class="text-[#EC2127] hover:text-[#b8171e] font-bold text-xs">ดูทั้งหมด</button>
+                    </div>
+
+                    <div class="space-y-3">
+                        <!-- Mission 1 Card -->
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-wrap items-center gap-3">
+                            <div class="bg-[#fcd2d4] p-2 rounded-xl flex items-center justify-center min-w-[44px]">
+                                <i class="fas fa-stethoscope text-xl text-[#EC2127]"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-bold text-slate-800 text-sm truncate">วัดความดันต่อเนื่อง 30 วัน</p>
+                                <p class="text-sm text-slate-500 mt-0.5">วัดแล้ว 22/30 วัน • สแกนใบผลหรือกรอกมือ</p>
+                                <!-- Progress Bar -->
+                                <div class="w-full bg-slate-100 rounded-full h-2 mt-2 overflow-hidden border border-slate-200">
+                                    <div class="bg-[#EC2127] h-full rounded-full" style="width: 73.3%"></div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-emerald-600 font-bold text-xs block">+500 แต้ม</span>
+                                <button onclick="openBloodPressureModal()" class="mt-1 bg-[#fde8e9] text-[#EC2127] border border-[#f9a6a9] hover:bg-[#fcd2d4] text-sm font-bold py-1 px-2 rounded-full btn-senior">
+                                    วัดเลย
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mission 2 Card -->
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-wrap items-center gap-3">
+                            <div class="bg-emerald-100 p-2 rounded-xl flex items-center justify-center min-w-[44px]">
+                                <i class="fas fa-walking text-xl text-emerald-600"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-bold text-slate-800 text-sm truncate">เดิน 10,000 ก้าว × 30 วัน</p>
+                                <p class="text-sm text-slate-500 mt-0.5">ทำได้แล้ว 13/30 วัน • เหลืออีก 17 วัน</p>
+                                <!-- Progress Bar -->
+                                <div class="w-full bg-slate-100 rounded-full h-2 mt-2 overflow-hidden border border-slate-200">
+                                    <div class="bg-emerald-500 h-full rounded-full" style="width: 43.3%"></div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-amber-600 font-bold text-xs block">ตรวจตาฟรี!</span>
+                                <button onclick="simulateSyncSteps()" class="mt-1 bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-100 text-sm font-bold py-1 px-2 rounded-full btn-senior">
+                                    ตรวจก้าว
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ครอบครัวอบอุ่น (Family Quick Panel - Ref: IMG_2758) -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <div>
+                            <h3 class="font-bold text-sm text-slate-800"><i class="fas fa-heart text-rose-500 mr-1"></i> ครอบครัวอบอุ่น</h3>
+                            <p class="text-sm text-slate-500">เป้าหมายเดินสัปดาห์นี้ - เป้า 50,000 ก้าว</p>
+                        </div>
+                        <button onclick="changeTab('health')" class="text-[#EC2127] hover:text-[#b8171e] font-bold text-xs">ดูสุขภาพบ้าน</button>
+                    </div>
+
+                    <!-- Family Steps Accumulation Progress -->
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-3">
+                        <div class="flex justify-between text-sm font-bold mb-1.5">
+                            <span class="text-slate-600">ก้าวสะสมทั้งบ้านตอนนี้:</span>
+                            <span class="text-[#EC2127]" id="familyTotalDisplay">18,640 / 50,000 ก้าว</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden border border-slate-300">
+                            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-full rounded-full transition-all duration-500" id="familyProgressBar" style="width: 37.28%"></div>
+                        </div>
+                    </div>
+
+                    <!-- List of Family members -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-xs p-1">
+                            <span class="font-medium text-slate-700">👵 คุณสมศรี (คุณยาย)</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-slate-900" id="somsriStepsText">7,240 ก้าว</span>
+                                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center text-xs p-1">
+                            <span class="font-medium text-slate-700">👦 สมชาย (ลูกชาย)</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-slate-900">9,100 ก้าว</span>
+                                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ================= VIEW 2: MISSIONS PAGE ================= -->
+            <section id="missionsView" class="hidden space-y-4">
+                <div class="bg-gradient-to-r from-[#10B981] to-[#059669] text-white p-4 rounded-2xl shadow-md">
+                    <h2 class="text-lg font-bold"><i class="fas fa-trophy mr-1.5 text-amber-300"></i> ทำภารกิจแลกแต้มปันสุข</h2>
+                    <p class="text-xs text-emerald-100 mt-1">ขยันทำภารกิจทุกวัน เพื่อแลกรับสิทธิ์รักษา คูปองอาหาร และเงินสะสมกันนะคะ!</p>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="font-bold text-sm text-slate-700 px-1">📋 รายการภารกิจทั้งหมด</h3>
+
+                    <!-- Mission Card: Medicine -->
+                    <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-amber-100 p-2.5 rounded-full text-amber-600">
+                                <i class="fas fa-pills text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">กินยาครบ 7 วันติดกัน</h4>
+                                <p class="text-xs text-slate-500">ครบแล้ว 6/7 วัน - เกือบถึงแล้ว!</p>
+                                <div class="w-32 bg-slate-100 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                                    <div class="bg-amber-500 h-full rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-emerald-600 font-bold text-xs block mb-1">+200 แต้ม</span>
+                            <button onclick="openMedicationModal()" class="bg-[#EC2127] hover:bg-[#b8171e] text-white font-bold text-xs py-1 px-3 rounded-full btn-senior">
+                                ทำต่อ
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mission Card: Water Intake -->
+                    <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-sky-100 p-2.5 rounded-full text-sky-600">
+                                <i class="fas fa-tint text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">ดื่มน้ำสะอาด 8 แก้ว/วัน</h4>
+                                <p class="text-xs text-slate-500">ดื่มแล้ววันนี้ <span id="waterCountDisplay">4</span>/8 แก้ว</p>
+                                <div class="w-32 bg-slate-100 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                                    <div class="bg-sky-500 h-full rounded-full transition-all duration-300" id="waterProgressBar" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-emerald-600 font-bold text-xs block mb-1">+50 แต้ม</span>
+                            <button onclick="drinkWater()" class="bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs py-1 px-3 rounded-full btn-senior">
+                                + 1 แก้ว
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 3: ASK AI DOCTOR PAGE (NEW INTEGRATED FEATURE!) ================= -->
+            <section id="aiDoctorView" class="hidden space-y-4">
+                <div class="bg-gradient-to-br from-[#18181B] to-[#334155] text-white p-4 rounded-2xl shadow-md flex items-center gap-3">
+                    <div class="w-12 h-12 bg-[#EC2127]/20 text-[#EC2127] rounded-full flex items-center justify-center text-2xl ai-pulse border border-[#EC2127]/30">
+                        🩺
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-base font-bold">ศูนย์ผู้ช่วย AI "หมออุ่นใจ"</h2>
+                        <p class="text-xs text-slate-300">ปรึกษาสุขภาพ ยา โภชนาการ และการนอนด้วยเสียงและข้อความ</p>
+                    </div>
+                </div>
+
+                <!-- Chat history and visual panel -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col min-h-[280px] h-auto max-h-[500px]">
+                    <div class="flex-1 overflow-y-auto space-y-3 p-1 text-xs" id="aiChatBox">
+                        <!-- Initial Doctor Greeting Card -->
+                        <div class="flex items-start gap-2">
+                            <div class="w-8 h-8 rounded-full bg-[#fcd2d4] text-[#b8171e] flex items-center justify-center text-sm font-bold flex-shrink-0">🩺</div>
+                            <div class="bg-[#fde8e9] text-slate-700 p-2.5 rounded-r-xl rounded-bl-xl border border-[#fcd2d4] leading-relaxed max-w-[95%]">
+                                สวัสดีค่ะคุณยายสมศรี วันนี้หมออุ่นใจพร้อมตอบคำถามสุขภาพแล้วค่ะ คุณยายอยากสอบถามหมอเกี่ยวกับอาหาร ความดัน ยา หรือการนอนหลับไหมคะ? ยินดีดูแลคุณยายค่ะ ❤️
+                            </div>
+                        </div>
+                    </div>
+                    <div id="aiChatLoading" class="hidden text-xs text-[#EC2127] text-center py-1 font-bold animate-pulse">
+                        💡 หมออุ่นใจกำลังประมวลผลคำแนะนำให้คุณยายนะคะ...
+                    </div>
+                    <!-- Audio playback controller for TTS -->
+                    <div id="ttsPlaybackContainer" class="hidden bg-emerald-50 border border-emerald-200 text-emerald-800 p-1.5 rounded-lg text-xs flex items-center justify-between mt-2">
+                        <span class="flex items-center gap-1">🔊 <strong class="font-bold">เสียงกำลังพูด:</strong> หมออุ่นใจกำลังอธิบายให้ฟังนะคะ</span>
+                        <audio id="geminiTtsAudio" controls class="h-6 w-32 scale-90" autoplay></audio>
+                    </div>
+                </div>
+
+                <!-- Senior Friendly Interactive Questions to click quickly -->
+                <div>
+                    <span class="text-xs font-bold text-slate-500 block mb-2"><i class="fas fa-hand-pointer mr-1"></i> คำถามที่ถามบ่อย (แตะเพื่อคุยเลย):</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="askPresetQuestion('ความดันตัวบน 140 ถือว่าอันตรายไหมคะ และมีวิธีดูแลตัวเองเบื้องต้นอย่างไร?')" class="bg-white hover:bg-[#fde8e9] border border-[#fcd2d4] rounded-xl p-2.5 text-left text-xs font-bold text-slate-700 btn-senior shadow-sm leading-tight">
+                            🩺 ความดัน 140 อันตรายไหม?
+                        </button>
+                        <button onclick="askPresetQuestion('คนอายุ 67 ปี ควรดื่มน้ำสะอาดวันละเท่าไร และส่งผลดีต่อไตอย่างไรบ้าง?')" class="bg-white hover:bg-[#fde8e9] border border-[#fcd2d4] rounded-xl p-2.5 text-left text-xs font-bold text-slate-700 btn-senior shadow-sm leading-tight">
+                            🥤 ปริมาณน้ำที่ควรดื่มของอายุ 67
+                        </button>
+                        <button onclick="askPresetQuestion('อาหารสมุนไพรตัวไหนที่ช่วยควบคุมน้ำตาลในเลือดสำหรับคนเป็นโรคเบาหวานคะ?')" class="bg-white hover:bg-[#fde8e9] border border-[#fcd2d4] rounded-xl p-2.5 text-left text-xs font-bold text-slate-700 btn-senior shadow-sm leading-tight">
+                            🥗 อาหารคุมน้ำตาลเบาหวาน
+                        </button>
+                        <button onclick="askPresetQuestion('ผู้สูงอายุที่ปวดข่าเข่าตอนเช้า ควรบริหารข้อเข่าด้วยท่าไหนที่ปลอดภัยคะ?')" class="bg-white hover:bg-[#fde8e9] border border-[#fcd2d4] rounded-xl p-2.5 text-left text-xs font-bold text-slate-700 btn-senior shadow-sm leading-tight">
+                            🦵 ท่าบริหารลดอาการปวดเข่า
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Customized Input box -->
+                <div class="flex flex-wrap gap-2">
+                    <input type="text" id="customUserQuestion" placeholder="พิมพ์ถามคำถามสุขภาพที่นี่..." class="flex-1 min-w-0 bg-white border-2 border-slate-200 rounded-xl py-3 px-3 text-sm focus:outline-none focus:border-[#EC2127] leading-normal">
+                    <button onclick="sendUserQuestion()" class="bg-[#EC2127] hover:bg-[#b8171e] text-white font-bold px-5 py-3 rounded-xl text-sm flex items-center justify-center btn-senior whitespace-nowrap">
+                        ส่งคำถาม
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 4: HEALTH LOGS PAGE ================= -->
+            <section id="healthView" class="hidden space-y-4">
+                <div class="bg-gradient-to-r from-teal-500 to-teal-600 text-white p-4 rounded-2xl shadow-md">
+                    <h2 class="text-lg font-bold"><i class="fas fa-heartbeat mr-1.5 text-rose-300"></i> ประวัติสุขภาพ & การบันทึก</h2>
+                    <p class="text-xs text-teal-100 mt-1">บันทึกค่าสำคัญวันนี้ เพื่อให้คุณหมอและลูกหลานคอยดูแลคุณได้อย่างดีที่สุด</p>
+                </div>
+
+                <!-- Quick Logger buttons grid (Ref: IMG_2753) -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="openBloodPressureModal()" class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm text-left hover:bg-slate-50 btn-senior">
+                        <div class="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-wave-square text-rose-600"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">ความดันโลหิต</h4>
+                        <p class="text-xs text-slate-500 mt-1">ล่าสุด: <span class="font-bold text-slate-700" id="healthViewBP">128/82</span></p>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded-full inline-block mt-2">ปกติ</span>
+                    </button>
+
+                    <button onclick="openGlucoseModal()" class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm text-left hover:bg-slate-50 btn-senior">
+                        <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-droplet text-amber-600"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm">น้ำตาลในเลือด</h4>
+                        <p class="text-xs text-slate-500 mt-1">ล่าสุด: <span class="font-bold text-slate-700" id="healthViewGlucose">110 mg/dL</span></p>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-0.5 rounded-full inline-block mt-2">คุมได้ดี</span>
+                    </button>
+                </div>
+
+                <!-- AI Art Card Builder for family sharing (NEW IMAGEN FEATURE!) -->
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-orange-200 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl">🎨</span>
+                        <div>
+                            <h3 class="font-bold text-sm text-orange-900">AI ดีไซน์การ์ดอวยพรส่งต่อลูกหลาน</h3>
+                            <p class="text-xs text-orange-700">สร้างรูปวาดคุณยายแข็งแรงและข้อความแสนอบอุ่นส่งหาลูกหลานใน LINE</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="generateBlessingCard('การ์ดคุณยายใส่ผ้าคลุมฮีโร่ สุขภาพดี ชูกำปั้น การ์ตูน 3 มิติสีสันสดใสพาสเทล พร้อมคำว่า สุขภาพดีมีสุข')" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 px-2 rounded-xl text-xs btn-senior shadow">
+                            🌸 การ์ดคุณยายสตรอง
+                        </button>
+                        <button onclick="generateBlessingCard('การ์ดอวยพรวันเสาร์น่ารักๆ มีลายดอกไม้โบตั๋นสวยงาม สไตล์พาสเทลสีเหลืองสดใส พร้อมคำว่า สุขกายสบายใจ')" class="flex-1 bg-[#EAB308] hover:bg-yellow-600 text-white font-bold py-1.5 px-2 rounded-xl text-xs btn-senior shadow">
+                            🌼 การ์ดดอกไม้สวยงาม
+                        </button>
+                    </div>
+
+                    <!-- Output display area -->
+                    <div id="aiImageResultContainer" class="hidden bg-white border border-slate-200 rounded-xl p-3 text-center space-y-2">
+                        <span class="text-xs text-slate-500 block">รูปการ์ดอวยพรที่ AI วาดให้เสร็จสมบูรณ์:</span>
+                        <div class="relative w-48 h-48 mx-auto border-2 border-slate-100 rounded-xl overflow-hidden shadow-md">
+                            <img id="aiResultImage" src="" alt="AI Generated greeting" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-xs text-emerald-600 font-bold">✨ รูปภาพสร้างสำเร็จ! ได้รับแต้มพิเศษ +100 แต้มจากการใช้ความคิดสร้างสรรค์</p>
+                        <button onclick="shareCardToLine()" class="bg-[#06C755] text-white hover:bg-[#05b34c] font-bold text-xs py-1 px-4 rounded-full inline-flex items-center gap-1.5 btn-senior">
+                            <i class="fab fa-line"></i> ส่งให้ครอบครัวทางไลน์
+                        </button>
+                    </div>
+
+                    <div id="aiImageLoading" class="hidden text-xs text-orange-600 text-center font-bold animate-pulse py-2">
+                        🎨 AI กำลังวาดรูปอวยพรอัจฉริยะแบบสดๆ ให้คุณยายอยู่นะคะ...
+                    </div>
+                </div>
+
+                <!-- Medical Appointments & Info (Ref: IMG_2756) -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-3">
+                    <h3 class="font-bold text-sm text-slate-800 border-b pb-1.5"><i class="fas fa-calendar-alt text-[#EC2127] mr-1.5"></i> ตารางนัดหมายพบคณหมอ</h3>
+                    
+                    <div class="p-3 bg-[#fde8e9]/70 border border-[#f9a6a9]/50 rounded-xl flex items-start gap-3">
+                        <div class="bg-[#EC2127] text-white p-3 rounded-xl text-center font-bold text-xs min-w-fit max-w-[80px] shadow-sm">
+                            <span class="block">12</span>
+                            <span class="block text-xs text-blue-200">ก.ค.</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-xs">ตรวจจอประสาทตาและต้อกระจก</h4>
+                            <p class="text-xs text-slate-500 mt-0.5">เวลา 09:00 น. • โรงพยาบาลปันสุขพาร์ทเนอร์</p>
+                            <span class="inline-block bg-amber-100 text-amber-800 text-xs font-bold px-2 py-0.2 rounded-full mt-1.5">สิทธิ์แลกคะแนนฟรี</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 5: REWARDS PAGE ================= -->
+            <section id="rewardsView" class="hidden space-y-4">
+                <!-- Points Header for Rewards -->
+                <div class="bg-gradient-to-br from-[#EC2127] to-[#b8171e] text-white rounded-2xl p-5 shadow-md flex justify-between items-center">
+                    <div>
+                        <span class="text-xs text-slate-300 block">แต้มปัจจุบันของคุณยาย</span>
+                        <div class="flex items-baseline gap-1 mt-0.5">
+                            <span class="text-3xl font-black text-amber-400" id="rewardsPointsDisplay">3,420</span>
+                            <span class="text-sm font-bold text-slate-300">แต้ม</span>
+                        </div>
+                    </div>
+                    <div class="bg-amber-500/15 border border-amber-500/30 px-3 py-1.5 rounded-xl">
+                        <span class="text-xs text-amber-400 block text-right font-medium">มูลค่าเงินสะสม</span>
+                        <span class="font-bold text-amber-300 text-xs" id="rewardsCashDisplay">34 บาท TrueMoney</span>
+                    </div>
+                </div>
+
+                <!-- Active Coupons List -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-sm text-slate-800 px-1"><i class="fas fa-gift text-amber-500 mr-1.5"></i> รางวัลยอดนิยมเพื่อสุขภาพ</h3>
+                    
+                    <!-- Reward Item 1 -->
+                    <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex gap-3.5 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-rose-500 text-white font-bold text-sm px-2 py-1 rounded-bl-xl">🌟</div>
+                        <div class="w-16 h-16 bg-rose-50 rounded-xl flex items-center justify-center text-3xl border border-rose-100">
+                            👁️
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-slate-800 text-sm leading-snug">คูปองตรวจโรคตาและต้อกระจกฟรี</h4>
+                            <p class="text-xs text-slate-500 mt-1">ใช้ตรวจฟรี ณ โรงพยาบาลพาร์ทเนอร์</p>
+                            <div class="flex items-center justify-between mt-3">
+                                <span class="text-amber-500 font-bold text-xs"><i class="fas fa-coins mr-1"></i> 1,000 แต้ม</span>
+                                <button onclick="confirmRedeem('ตรวจต้อกระจกฟรี', 1000)" class="bg-[#EC2127] hover:bg-[#b8171e] text-white font-bold text-xs py-1 px-3 rounded-full btn-senior">
+                                    แลกรับสิทธิ์
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reward Item 2 -->
+                    <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex gap-3.5 relative overflow-hidden">
+                        <div class="w-16 h-16 bg-emerald-50 rounded-xl flex items-center justify-center text-3xl border border-emerald-100">
+                            💸
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-slate-800 text-sm leading-snug">โอนเงินเข้า TrueMoney 20 บาท</h4>
+                            <p class="text-xs text-slate-500 mt-1">เงินโอนเข้าบัญชีเบอร์ที่ผูกไว้ภายในวันถัดไป</p>
+                            <div class="flex items-center justify-between mt-3">
+                                <span class="text-amber-500 font-bold text-xs"><i class="fas fa-coins mr-1"></i> 2,000 แต้ม</span>
+                                <button onclick="confirmRedeem('เงินสด 20 บาท เข้า TrueMoney', 2000)" class="bg-[#EC2127] hover:bg-[#b8171e] text-white font-bold text-xs py-1 px-3 rounded-full btn-senior">
+                                    แลกรับสิทธิ์
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ================= MODALS & POP-UPS ================= -->
+        
+        <!-- 1. MEDICATION LOG MODAL (Ref: IMG_2755) -->
+        <div id="medModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-end md:items-center justify-center p-4">
+            <div class="bg-white w-full max-w-sm rounded-t-3xl md:rounded-3xl p-6 space-y-4 shadow-2xl relative">
+                <button onclick="closeModal('medModal')" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full w-9 h-9 flex items-center justify-center font-bold">✕</button>
+                
+                <div class="text-center">
+                    <span class="text-4xl">💊</span>
+                    <h3 class="text-lg font-bold mt-2">บันทึกการกินยาวันนี้</h3>
+                    <p class="text-xs text-slate-500 mt-1">กดเลือกทานยาเมื่อถึงรอบเวลาแล้วสะสมแต้ม</p>
+                </div>
+
+                <div class="space-y-2.5">
+                    <!-- Morning Med Row -->
+                    <div class="flex items-center justify-between p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-sun text-amber-500 text-lg"></i>
+                            <div>
+                                <span class="font-bold text-slate-800 text-xs block">ยารอบเช้า (หลังอาหาร)</span>
+                                <span class="text-xs text-emerald-700">กินครบเรียบร้อยแล้ว</span>
+                            </div>
+                        </div>
+                        <span class="bg-emerald-500 text-white rounded-full p-1 text-xs w-5 h-5 flex items-center justify-center">✓</span>
+                    </div>
+
+                    <!-- Afternoon Med Row -->
+                    <div class="flex items-center justify-between p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-cloud text-slate-400 text-lg"></i>
+                            <div>
+                                <span class="font-bold text-slate-800 text-xs block">ยารอบกลางวัน</span>
+                                <span class="text-xs text-emerald-700">กินครบเรียบร้อยแล้ว</span>
+                            </div>
+                        </div>
+                        <span class="bg-emerald-500 text-white rounded-full p-1 text-xs w-5 h-5 flex items-center justify-center">✓</span>
+                    </div>
+
+                    <!-- Evening Med Row -->
+                    <div id="eveningMedRow" class="flex items-center justify-between p-3 bg-amber-50 rounded-xl border border-amber-200">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-moon text-indigo-500 text-lg animate-pulse"></i>
+                            <div>
+                                <span class="font-bold text-slate-800 text-xs block">ยารอบเย็น (ก่อนนอน)</span>
+                                <span class="text-xs text-amber-700 font-bold">รอให้กินและบันทึก</span>
+                            </div>
+                        </div>
+                        <button onclick="logEveningMed()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs py-1.5 px-3 rounded-lg btn-senior shadow">
+                            กินยาแล้ว
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 2. BLOOD PRESSURE LOGGER MODAL (Ref: IMG_2753) -->
+        <div id="bpModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-end md:items-center justify-center p-4">
+            <div class="bg-white w-full max-w-sm rounded-t-3xl md:rounded-3xl p-6 space-y-4 shadow-2xl relative">
+                <button onclick="closeModal('bpModal')" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full w-9 h-9 flex items-center justify-center font-bold">✕</button>
+                
+                <div class="text-center">
+                    <span class="text-4xl">🩺</span>
+                    <h3 class="text-lg font-bold mt-2">บันทึกความดันโลหิต</h3>
+                    <p class="text-xs text-slate-500 mt-1">กรอกตัวเลขจากเครื่องวัดความดันที่บ้านของคุณ</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">ความดันตัวบน (SYS) เช่น 120-139</label>
+                        <input type="number" id="sysInput" value="128" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-2.5 text-base font-bold text-slate-800 text-center focus:border-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">ความดันตัวล่าง (DIA) เช่น 80-89</label>
+                        <input type="number" id="diaInput" value="82" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-2.5 text-base font-bold text-slate-800 text-center focus:border-blue-500 focus:outline-none">
+                    </div>
+                    <button onclick="saveBloodPressure()" class="w-full bg-[#18181B] hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm shadow btn-senior mt-2">
+                        บันทึก & รับ +50 แต้ม
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 3. BLOOD GLUCOSE LOGGER MODAL -->
+        <div id="glucoseModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-end md:items-center justify-center p-4">
+            <div class="bg-white w-full max-w-sm rounded-t-3xl md:rounded-3xl p-6 space-y-4 shadow-2xl relative">
+                <button onclick="closeModal('glucoseModal')" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full w-9 h-9 flex items-center justify-center font-bold">✕</button>
+                
+                <div class="text-center">
+                    <span class="text-4xl">🩸</span>
+                    <h3 class="text-lg font-bold mt-2">บันทึกน้ำตาลในเลือด</h3>
+                    <p class="text-xs text-slate-500 mt-1">วัดระดับน้ำตาลในกระแสเลือด (หน่วย mg/dL)</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">ค่าน้ำตาลในเลือด (เช่น 70 - 140)</label>
+                        <input type="number" id="glucoseInput" value="110" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-2.5 text-base font-bold text-slate-800 text-center focus:border-blue-500 focus:outline-none">
+                    </div>
+                    <button onclick="saveGlucose()" class="w-full bg-[#18181B] hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm shadow btn-senior mt-2">
+                        บันทึก & รับ +50 แต้ม
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 4. REAL CAMERA SCANNING & MULTIMODAL GEMINI ANALYSER MODAL -->
+        <div id="scanModal" class="hidden fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+            <div class="bg-slate-900 w-full max-w-md h-[90vh] rounded-3xl p-5 flex flex-col justify-between text-white relative">
+                <button onclick="closeModal('scanModal')" class="absolute top-4 right-4 bg-slate-800 text-white rounded-full w-9 h-9 flex items-center justify-center font-bold">✕</button>
+                
+                <div class="text-center mt-3">
+                    <h3 class="text-lg font-bold">📷 ถ่ายรูปหรืออัปโหลดสลิปผลสุขภาพ</h3>
+                    <p class="text-xs text-slate-400 mt-1">AI จะทำการอ่านดึงค่าตัวเลขอัตโนมัติ</p>
+                </div>
+
+                <!-- Input area & scan screen -->
+                <div class="my-4 flex-1 bg-slate-950 rounded-2xl relative border-2 border-dashed border-blue-500 flex flex-col items-center justify-center overflow-hidden p-4">
+                    <!-- Scanner Laser animation effect -->
+                    <div id="scanLaser" class="hidden absolute w-full h-1 bg-[#EC2127] top-1/4 left-0 animate-bounce"></div>
+                    
+                    <div id="uploadGuideline" class="text-center space-y-2">
+                        <span class="text-4xl block">📄</span>
+                        <p class="text-xs text-slate-400 max-w-[80%] mx-auto">เลือกไฟล์ภาพใบวัดความดัน หรือผลตรวจเบาหวานจากเครื่อง</p>
+                        <!-- Real Native File Input -->
+                        <input type="file" id="healthDocumentInput" accept="image/*" onchange="previewSelectedDocument(event)" class="text-xs text-slate-300 w-full max-w-[200px] bg-slate-900 p-1 rounded-md border border-slate-700">
+                    </div>
+
+                    <!-- Image Preview Area -->
+                    <div id="docPreviewContainer" class="hidden w-full h-full flex flex-col items-center justify-center p-2">
+                        <img id="docPreviewImage" src="" class="max-h-[60%] rounded-lg object-contain border border-slate-700 shadow-md">
+                        <button onclick="resetDocSelection()" class="mt-2 text-xs text-rose-400 underline">ลบและเลือกภาพใหม่</button>
+                    </div>
+
+                    <!-- Gemini processing status -->
+                    <div id="aiProcessingState" class="hidden absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center text-center p-4">
+                        <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+                        <p class="text-xs font-bold text-[#EC2127] animate-pulse">🤖 ปัญญาประดิษฐ์ Gemini วิเคราะห์ภาพผลตรวจของยาย...</p>
+                        <span class="text-xs text-slate-500 mt-1">ระบบกำลังแปลงรูปภาพเป็นข้อมูลความดันและค่าน้ำตาล</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Actions -->
+                    <button onclick="analyzeDocumentWithGemini()" class="w-full bg-[#EC2127] hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 btn-senior shadow">
+                        <i class="fas fa-magic"></i> ส่งให้ AI สแกนวิเคราะห์ผล
+                    </button>
+                    
+                    <div class="text-center border-t border-slate-800 pt-2 flex justify-between items-center text-sm text-slate-400">
+                        <span>ไม่มีใบภาพ? กดแบบจำลองเร็ว:</span>
+                        <button onclick="simulateScanResult()" class="text-[#EC2127] underline font-bold bg-slate-800 py-1 px-2.5 rounded-lg hover:bg-slate-700">
+                            จำลองดึงค่าด่วน
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 5. REDEEM SUCCESS MODAL -->
+        <div id="redeemModal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+            <div class="bg-white w-full max-w-sm rounded-3xl p-6 text-center space-y-4 shadow-2xl relative">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto animate-bounce">
+                    🎉
+                </div>
+                <h3 class="text-xl font-black text-slate-800">แลกรับสิทธิ์สำเร็จแล้ว!</h3>
+                <div class="p-3 bg-slate-50 border rounded-xl">
+                    <p class="text-xs text-slate-500">รางวัลที่แลก:</p>
+                    <p class="font-bold text-sm text-slate-800" id="redeemedItemName">ตรวจสุขภาพฟรี</p>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    เราได้ส่งคูปองดิจิทัล และส่งรหัสไปที่เบอร์โทรศัพท์ของคุณยาย พร้อมส่งข้อความแจ้งเตือนเข้าสมาร์ทโฟนของลูกหลานเรียบร้อยแล้วค่ะ!
+                </p>
+                <button onclick="closeModal('redeemModal')" class="w-full bg-[#18181B] hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm btn-senior">
+                    ตกลง
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Elder Help Voice Assistant Button -->
+        <div class="fixed bottom-32 right-4 z-30">
+            <button onclick="triggerVoiceGreeting()" class="bg-[#10B981] text-white p-3.5 rounded-full shadow-lg flex items-center justify-center text-xl hover:scale-105 transition-all animate-bounce" title="ผู้ช่วยเสียง">
+                🔊
+            </button>
+        </div>
+
+
+        <!-- Bottom Tab Navigation (Ref: IMG_2758) -->
+        <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-4 px-6 flex justify-between items-center gap-2 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+            <button onclick="changeTab('home')" id="tab-home" class="flex flex-col items-center justify-center flex-1 text-[#EC2127] transition-colors">
+                <i class="fas fa-home text-2xl mb-1"></i>
+                
+            </button>
+            <button onclick="changeTab('missions')" id="tab-missions" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors">
+                <i class="fas fa-trophy text-2xl mb-1"></i>
+                
+            </button>
+            <button onclick="changeTab('aiDoctor')" id="tab-aiDoctor" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors relative">
+                <span class="absolute -top-1 right-3 bg-rose-500 text-white font-bold text-xs px-1.5 rounded-full scale-75 border-2 border-white">AI</span>
+                <i class="fas fa-user-md text-2xl mb-1"></i>
+                
+            </button>
+            <button onclick="changeTab('health')" id="tab-health" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors">
+                <i class="fas fa-heartbeat text-2xl mb-1"></i>
+                
+            </button>
+            <button onclick="changeTab('rewards')" id="tab-rewards" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors">
+                <i class="fas fa-gift text-2xl mb-1"></i>
+                
+            </button>
+        </nav>
+
+        <!-- Custom Elder Toast Alert Banner -->
+        <div id="customToast" class="hidden fixed bottom-28 left-4 right-4 z-50 bg-slate-900/95 text-white p-3.5 rounded-xl shadow-xl flex items-center gap-2 animate-fade-in border border-slate-700">
+            <span class="text-lg">💡</span>
+            <p class="text-xs font-bold flex-1" id="toastMessage">แจ้งเตือนข้อมูล</p>
+            <button onclick="document.getElementById('customToast').classList.add('hidden')" class="text-slate-400 font-bold text-xs">✕</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Update values dynamically inside HTML
+        function renderState() {
+            // Numbers formatting helper
+            const formatNum = (num) => num.toLocaleString('th-TH');
+
+            document.getElementById('mainPointsDisplay').innerText = formatNum(userState.points);
+            document.getElementById('rewardsPointsDisplay').innerText = formatNum(userState.points);
+            document.getElementById('moneyWorth').innerText = formatNum(Math.floor(userState.points / 100));
+            document.getElementById('rewardsCashDisplay').innerText = formatNum(Math.floor(userState.points / 100)) + ' บาท';
+
+            document.getElementById('stepStatDisplay').innerText = formatNum(userState.todaySteps);
+            document.getElementById('somsriStepsText').innerText = formatNum(userState.todaySteps) + ' ก้าว';
+
+            document.getElementById('bpStatDisplay').innerText = `${userState.bloodPressure.sys}/${userState.bloodPressure.dia}`;
+            document.getElementById('healthViewBP').innerText = `${userState.bloodPressure.sys}/${userState.bloodPressure.dia}`;
+            document.getElementById('healthViewGlucose').innerText = `${userState.bloodGlucose} mg/dL`;
+
+            // Render streak
+            document.getElementById('streakDisplay').innerText = `${userState.streakDays} วัน`;
+
+            // Render Family total calculations
+            const combinedSteps = userState.todaySteps + 9100 + 2300; // me + son + granddaughter
+            document.getElementById('familyTotalDisplay').innerText = `${formatNum(combinedSteps)} / 50,000 ก้าว`;
+            
+            const percentage = Math.min((combinedSteps / userState.teamTarget) * 100, 100);
+            document.getElementById('familyProgressBar').style.width = `${percentage}%`;
+
+            // Check if evening meds logged
+            if (userState.medsLogged.evening) {
+                document.getElementById('medWarningBanner').classList.add('hidden');
+                document.getElementById('eveningMedRow').innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-moon text-emerald-500 text-lg"></i>
+                        <div>
+                            <span class="font-bold text-slate-800 text-xs block">ยารอบเย็น (ก่อนนอน)</span>
+                            <span class="text-xs text-emerald-700 font-bold">ทานครบถ้วนและเช็คอินรับแต้มแล้วค่ะ</span>
+                        </div>
+                    </div>
+                    <span class="bg-emerald-500 text-white rounded-full p-1 text-xs w-5 h-5 flex items-center justify-center">✓</span>
+                `;
+            }
+        }
+
+        // Tab Navigation
+        function changeTab(tabName) {
+            // Hide all tab views
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('missionsView').classList.add('hidden');
+            document.getElementById('aiDoctorView').classList.add('hidden');
+            document.getElementById('healthView').classList.add('hidden');
+            document.getElementById('rewardsView').classList.add('hidden');
+
+            // Show selected view
+            document.getElementById(tabName + 'View').classList.remove('hidden');
+
+            // Reset navigation tab button styles
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('text-[#EC2127]');
+                btn.classList.add('text-slate-400');
+            });
+
+            // Set active class
+            document.getElementById('tab-' + tabName).classList.remove('text-slate-400');
+            document.getElementById('tab-' + tabName).classList.add('text-[#EC2127]');
+
+            // Play voice guide for tabs so senior people can interact with hearing support
+            let guideText = "";
+            switch (tabName) {
+                case 'home':
+                    guideText = "เปิดหน้าหลักของคุณค่ะ";
+                    break;
+                case 'missions':
+                    guideText = "เปิดหน้าภารกิจทั้งหมดค่ะ มีหลากหลายกิจกรรมให้เลือกทำ";
+                    break;
+                case 'aiDoctor':
+                    guideText = "ยินดีต้อนรับเข้าสู่แผนก หมออุ่นใจ ปัญญาประดิษฐ์ค่ะ คุยปรึกษาสุขภาพกับหมอได้ทันทีนะคะ";
+                    break;
+                case 'health':
+                    guideText = "หน้ารวมประวัติสุขภาพและค่าน้ำตาลความดันของคุณยายค่ะ";
+                    break;
+                case 'rewards':
+                    guideText = "เปิดหน้ารวมของรางวัลสำหรับผู้สูงอายุค่ะ";
+                    break;
+            }
+            speakThai(guideText);
+        }
+
+        // Modals management
+        function openMedicationModal() {
+            document.getElementById('medModal').classList.remove('hidden');
+        }
+
+        function openBloodPressureModal() {
+            document.getElementById('bpModal').classList.remove('hidden');
+        }
+
+        function openGlucoseModal() {
+            document.getElementById('glucoseModal').classList.remove('hidden');
+        }
+
+        function openScanModal() {
+            document.getElementById('scanModal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Custom Senior Toast message helper
+        function showCustomToast(msg) {
+            const toast = document.getElementById('customToast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('hidden');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Interaction Operations & Simulated Actions
+        function simulateSyncSteps() {
+            userState.todaySteps += 1000;
+            userState.points += 100; // sync bonus points
+            renderState();
+            showCustomToast("🚶‍♂️ สำเร็จ! ซิงค์ก้าวเดินเพิ่มขึ้น +1,000 ก้าว (รับเพิ่ม +100 แต้ม)");
+            speakThai("ซิงค์จำนวนก้าวสำเร็จ ได้แต้มเพิ่มหนึ่งร้อยแต้มค่ะ");
+        }
+
+        function logEveningMed() {
+            userState.medsLogged.evening = true;
+            userState.points += 200; // evening checkin award
+            renderState();
+            closeModal('medModal');
+            showCustomToast("💊 บันทึกการทานยารอบเย็นเสร็จสมบูรณ์! ได้รับรางวัล +200 แต้ม");
+            speakThai("บันทึกการกินยาเรียบร้อยค่ะ ได้รับสองร้อยคะแนนสะสม");
+        }
+
+        function saveBloodPressure() {
+            const sys = parseInt(document.getElementById('sysInput').value);
+            const dia = parseInt(document.getElementById('diaInput').value);
+            
+            if (sys && dia) {
+                userState.bloodPressure.sys = sys;
+                userState.bloodPressure.dia = dia;
+                userState.points += 50;
+                
+                let analysisText = "ความดันปกติ";
+                if (sys >= 140 || dia >= 90) {
+                    analysisText = "ความดันค่อนข้างสูง (แนะนำพักผ่อนและดื่มน้ำเยอะๆ นะคะ)";
+                } else if (sys < 90 || dia < 60) {
+                    analysisText = "ความดันค่อนข้างต่ำ";
+                }
+                
+                userState.bloodPressure.status = analysisText;
+                renderState();
+                closeModal('bpModal');
+                
+                showCustomToast(`🩺 บันทึกความดัน ${sys}/${dia} สำเร็จ! วิเคราะห์ผล: ${analysisText} (+50 แต้ม)`);
+                speakThai(`บันทึกความดันโลหิตเรียบร้อยค่ะ ผลวิเคราะห์คือ ${analysisText}`);
+            }
+        }
+
+        function saveGlucose() {
+            const val = parseInt(document.getElementById('glucoseInput').value);
+            if (val) {
+                userState.bloodGlucose = val;
+                userState.points += 50;
+                renderState();
+                closeModal('glucoseModal');
+                
+                showCustomToast(`🩸 บันทึกค่าน้ำตาล ${val} mg/dL สำเร็จ! (+50 แต้ม)`);
+                speakThai(`บันทึกค่าน้ำตาลในเลือด ${val} เรียบร้อยดีค่ะ ได้รับคะแนนสะสมแล้วค่ะ`);
+            }
+        }
+
+        function drinkWater() {
+            if (userState.waterGlasses < 8) {
+                userState.waterGlasses += 1;
+                userState.points += 10;
+                document.getElementById('waterCountDisplay').innerText = userState.waterGlasses;
+                
+                const percentage = (userState.waterGlasses / 8) * 100;
+                document.getElementById('waterProgressBar').style.width = `${percentage}%`;
+                
+                renderState();
+                showCustomToast(`🥤 ดื่มน้ำแก้วที่ ${userState.waterGlasses} สำเร็จ! (+10 แต้ม)`);
+                speakThai(`ดื่มน้ำแก้วที่ ${userState.waterGlasses} เรียบร้อยแล้วค่ะ สดชื่นนะคะ`);
+            } else {
+                showCustomToast(`✨ คุณยายดื่มน้ำครบ 8 แก้วตามเป้าหมายของวันนี้แล้วค่ะ!`);
+                speakThai(`ดื่มน้ำครบแปดแก้วแล้วค่ะ เก่งมากๆ เลย`);
+            }
+        }
+
+        function confirmRedeem(itemName, cost) {
+            if (userState.points >= cost) {
+                userState.points -= cost;
+                renderState();
+                
+                document.getElementById('redeemedItemName').innerText = itemName;
+                document.getElementById('redeemModal').classList.remove('hidden');
+                
+                speakThai(`ยินดีด้วยค่ะ แลกรับ ${itemName} สำเร็จ หักคะแนนไป ${cost} คะแนนค่ะ`);
+            } else {
+                showCustomToast("❌ คะแนนสะสมของคุณยายยังไม่พอสำหรับการแลกรางวัลนี้นะคะ ขยันทำภารกิจต่อนะ!");
+                speakThai("คะแนนสะสมของคุณยายยังไม่เพียงพอสำหรับการแลกรางวัลชิ้นนี้ค่ะ");
+            }
+        }
+    </script>
+
+    <script>
+        // Global variables for document scanner
+        let base64DocumentData = "";
+
+        function previewSelectedDocument(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgResult = e.target.result;
+                base64DocumentData = imgResult.split(',')[1]; // Get only base64 code block
+                
+                document.getElementById('docPreviewImage').src = imgResult;
+                document.getElementById('uploadGuideline').classList.add('hidden');
+                document.getElementById('docPreviewContainer').classList.remove('hidden');
+                document.getElementById('scanLaser').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetDocSelection() {
+            base64DocumentData = "";
+            document.getElementById('healthDocumentInput').value = "";
+            document.getElementById('uploadGuideline').classList.remove('hidden');
+            document.getElementById('docPreviewContainer').classList.add('hidden');
+            document.getElementById('scanLaser').classList.add('hidden');
+        }
+
+        async function analyzeDocumentWithGemini() {
+            const apiKey = document.getElementById('geminiApiKey').value.trim();
+            
+            if (!base64DocumentData) {
+                showCustomToast("❌ กรุณาเลือกอัปโหลดรูปภาพใบผลสุขภาพก่อนค่ะ");
+                speakThai("กรุณาเลือกไฟล์ภาพใบผลตรวจก่อนทำการสแกนนะคะคุณยาย");
+                return;
+            }
+
+            // Fallback to Simulator if no API Key provided
+            if (!apiKey) {
+                showCustomToast("⚠️ ไม่พบ API Key กำลังรันแบบจำลอง AI ให้รับชมฟรีค่ะ...");
+                simulateScanResult();
+                return;
+            }
+
+            const loader = document.getElementById('aiProcessingState');
+            loader.classList.remove('hidden');
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            
+            const promptInstruction = "คุณคือตารู้ใจ ปัญญาประดิษฐ์สกัดความรู้สุขภาพ กรุณาอ่านใบผลตรวจสุขภาพในภาพนี้และสกัดค่าที่เจอ (ค่าความดันโลหิตตัวบน SYS, ความดันตัวล่าง DIA, และค่าน้ำตาลในเลือด) ตอบกลับในรูปแบบ JSON วงเล็บปีกกาตรงๆ เท่านั้น ไม่มีคำพูดเกริ่น ไม่มีมาร์กดาวน์ใดๆ ทั้งสิ้น ตัวอย่างเช่น: {\"sys\":125, \"dia\":82, \"glucose\":112, \"status\":\"ความดันโลหิตและระดับน้ำตาลอยู่ในระดับที่ควบคุมได้ดีมากค่ะ\"}";
+
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: promptInstruction },
+                        {
+                            inlineData: {
+                                mimeType: "image/png",
+                                data: base64DocumentData
+                            }
+                        }
+                    ]
+                }],
+                generationConfig: {
+                    responseMimeType: "application/json"
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+
+                const data = await response.json();
+                const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (textResponse) {
+                    const parsedResult = JSON.parse(textResponse);
+                    
+                    // Apply parsed health stats
+                    if (parsedResult.sys && parsedResult.dia) {
+                        userState.bloodPressure.sys = parsedResult.sys;
+                        userState.bloodPressure.dia = parsedResult.dia;
+                    }
+                    if (parsedResult.glucose) {
+                        userState.bloodGlucose = parsedResult.glucose;
+                    }
+                    
+                    userState.points += 300; // Bonus scan rewards!
+                    renderState();
+                    closeModal('scanModal');
+                    resetDocSelection();
+
+                    const reportSpeech = `สแกนใบรายงานสำเร็จค่ะ ดึงค่าความดันได้ ${userState.bloodPressure.sys} ตัวล่าง ${userState.bloodPressure.dia} ค่าน้ำตาลคือ ${userState.bloodGlucose} มิลลิกรัมเปอร์เซ็นต์ ค่ะ`;
+                    speakThai(reportSpeech);
+                    showCustomToast(`🤖 สแกนวิเคราะห์ภาพสำเร็จ! ดึงค่าได้ BP: ${userState.bloodPressure.sys}/${userState.bloodPressure.dia}, Glucose: ${userState.bloodGlucose} mg/dL (+300 แต้ม)`);
+                } else {
+                    throw new Error("ไม่มีข้อมูลส่งกลับจากโมเดล");
+                }
+
+            } catch (error) {
+                console.error("Gemini Error: ", error);
+                showCustomToast("❌ การเชื่อมต่อล้มเหลว กำลังใช้การจำลองดึงค่าด่วนเพื่อสาธิตค่ะ");
+                simulateScanResult();
+            } finally {
+                loader.classList.add('hidden');
+            }
+        }
+
+        function simulateScanResult() {
+            // Auto generate some healthy metrics from scanned sheet
+            userState.bloodPressure = { sys: 122, dia: 80, status: 'ปกติ' };
+            userState.bloodGlucose = 98;
+            userState.points += 300; // Bonus scan points
+            renderState();
+            closeModal('scanModal');
+            resetDocSelection();
+            showCustomToast("🔍 สแกนกระดาษสำเร็จ! (จำลองผลตรวจ) ดึงค่าความดัน 122/80 น้ำตาล 98 ออกมาได้สำเร็จ (+300 แต้ม)");
+            speakThai("สแกนกระดาษผลการตรวจเรียบร้อยแล้วค่ะ ความดันปกติ ดีมากเลยนะคะคุณยาย");
+        }
+    </script>
+
+    <script>
+        // Converters needed to play Gemini TTS raw PCM on standard audio element
+        function pcmToWav(pcm16Array, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcm16Array.length * 2);
+            const view = new DataView(buffer);
+            
+            /* RIFF identifier */
+            view.setUint32(0, 0x52494646, false);
+            /* file length */
+            view.setUint32(4, 36 + pcm16Array.length * 2, true);
+            /* RIFF type */
+            view.setUint32(8, 0x57415645, false);
+            /* format chunk identifier */
+            view.setUint32(12, 0x666d7420, false);
+            /* format chunk length */
+            view.setUint32(16, 16, true);
+            /* sample format (raw PCM = 1) */
+            view.setUint16(20, 1, true);
+            /* channel count (1) */
+            view.setUint16(22, 1, true);
+            /* sample rate */
+            view.setUint32(24, sampleRate, true);
+            /* byte rate */
+            view.setUint32(28, sampleRate * 2, true);
+            /* block align */
+            view.setUint16(32, 2, true);
+            /* bits per sample (16) */
+            view.setUint16(34, 16, true);
+            /* data chunk identifier */
+            view.setUint32(36, 0x64617461, false);
+            /* chunk length */
+            view.setUint32(40, pcm16Array.length * 2, true);
+
+            // Write PCM samples
+            for (let i = 0; i < pcm16Array.length; i++) {
+                view.setInt16(44 + i * 2, pcm16Array[i], true);
+            }
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // Generate Warm Audio Speech via Gemini TTS API
+        async function speakViaGeminiTTS(textToSpeak) {
+            const apiKey = document.getElementById('geminiApiKey').value.trim();
+            if (!apiKey) {
+                // If no API Key is provided, fallback immediately to local Web Speech API
+                speakThai(textToSpeak);
+                return;
+            }
+
+            const ttsContainer = document.getElementById('ttsPlaybackContainer');
+            const audioElement = document.getElementById('geminiTtsAudio');
+            
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: `กรุณาพูดคุยทักทายคุณยายสมศรีด้วยน้ำเสียงเนิบช้า สุภาพ และอ่อนโยนเป็นภาษาไทยว่า: "${textToSpeak}"` }]
+                }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: { voiceName: "Sulafat" } // Warm, welcoming voice
+                        }
+                    }
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("TTS call failed");
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+                    
+                    const pcmData = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmData);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+                    
+                    // Show custom player and play
+                    ttsContainer.classList.remove('hidden');
+                    audioElement.src = audioUrl;
+                    audioElement.play();
+                } else {
+                    throw new Error("No inline audio data found");
+                }
+            } catch (err) {
+                console.warn("Gemini TTS Failed, falling back to basic Web Speech:", err);
+                speakThai(textToSpeak);
+            }
+        }
+
+        // Main Conversation Handler
+        async function askGeminiDoctor(userPromptText) {
+            const apiKey = document.getElementById('geminiApiKey').value.trim();
+            const chatBox = document.getElementById('aiChatBox');
+            const loadingIndicator = document.getElementById('aiChatLoading');
+
+            // Render User Bubble
+            const userBubble = `
+                <div class="flex items-start gap-2 justify-end">
+                    <div class="bg-[#EC2127] text-white p-2.5 rounded-l-xl rounded-br-xl leading-relaxed max-w-[95%]">
+                        ${userPromptText}
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-xs font-bold flex-shrink-0">👵</div>
+                </div>
+            `;
+            chatBox.insertAdjacentHTML('beforeend', userBubble);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            loadingIndicator.classList.remove('hidden');
+
+            // Fallback for demo without Key
+            if (!apiKey) {
+                setTimeout(() => {
+                    loadingIndicator.classList.add('hidden');
+                    const simulatedDoctorResponses = [
+                        "ความดันโลหิต 140 มิลลิเมตรปรอท ถือว่าเริ่มสูงเล็กน้อยนะคะคุณยาย แต่อย่าเพิ่งตกใจไปนะคะ แนะนำให้นั่งพักเฉยๆ ดื่มน้ำเปล่าเพิ่ม และพรุ่งนี้ลองวัดความดันซ้ำรอบเช้าค่ะ ถ้ามีอาการเวียนศีรษะให้บอกลูกหลานทันทีนะคะ",
+                        "สำหรับสุขภาพวัยเกษียณ หมออุ่นใจแนะนำให้ออกกำลังกายเบาๆ เช่น การแกว่งแขนวันละ 15 นาที หรือ เดินเล่นรอบสนามหญ้าหน้าบ้าน จะช่วยยืดเส้นยืดสายและถนอมข้อเข่าได้เป็นอย่างดีที่สุดเลยค่ะคุณยาย",
+                        "น้ำมันมะพร้าวสกัดเย็นทานได้แต่พอเหมาะนะคะคุณยาย หมอแนะนำให้เน้นทานน้ำต้มสมุนไพร เช่น น้ำขิง หรือน้ำอัญชัน และทานผักต้มเยอะๆ จะดีต่อหัวใจและการขับถ่ายอย่างดีค่ะ",
+                        "ทานยาตามที่คุณหมอสั่งอย่างเคร่งครัดนะคะ รอบเย็นนี้อย่าลืมกดเช็คอินเพื่อสะสมคะแนนแลกส่วนลดด้วยนะ หมอคอยเชียร์และเป็นกำลังใจให้เสมอค่ะ!"
+                    ];
+                    const randomReply = simulatedDoctorResponses[Math.floor(Math.random() * simulatedDoctorResponses.length)];
+                    
+                    const doctorBubble = `
+                        <div class="flex items-start gap-2">
+                            <div class="w-8 h-8 rounded-full bg-[#fcd2d4] text-[#b8171e] flex items-center justify-center text-sm font-bold flex-shrink-0">🩺</div>
+                            <div class="bg-[#fde8e9] text-slate-700 p-2.5 rounded-r-xl rounded-bl-xl border border-[#fcd2d4] leading-relaxed max-w-[95%]">
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-1.5 py-0.2 rounded-full mr-1">จำลอง (Demo Mode)</span> ${randomReply}
+                            </div>
+                        </div>
+                    `;
+                    chatBox.insertAdjacentHTML('beforeend', doctorBubble);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    speakThai(randomReply);
+                }, 1500);
+                return;
+            }
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const systemInstructions = "คุณคือ 'หมออุ่นใจ' แพทย์ผู้เชี่ยวชาญด้านเวชศาสตร์ผู้สูงอายุและคู่หูที่แสนอบอุ่นของวัยเก๋า พูดจาด้วยภาษาไทยที่สุภาพ อ่อนโยน ใช้คำแทนตัวเองว่า 'หมอ' และเรียกผู้ใช้งานว่า 'คุณยาย' หรือ 'คุณตา' เสมอ ให้คำแนะนำด้านสุขภาพ อาหาร โภชนาการ และการออกกำลังกายที่ปลอดภัยสำหรับผู้สูงอายุอย่างเข้าใจง่าย ชัดเจน ไม่ใช้คำศัพท์แพทย์ที่ยากเกินไป เน้นการให้กำลังใจ และลงท้ายด้วยคำว่า 'นะคะ' หรือ 'ครับ' เสมอ";
+
+            const payload = {
+                contents: [{ parts: [{ text: userPromptText }] }],
+                systemInstruction: {
+                    parts: [{ text: systemInstructions }]
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("Chat api failed");
+
+                const result = await response.json();
+                const aiResponseText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (aiResponseText) {
+                    loadingIndicator.classList.add('hidden');
+                    const doctorBubble = `
+                        <div class="flex items-start gap-2">
+                            <div class="w-8 h-8 rounded-full bg-[#fcd2d4] text-[#b8171e] flex items-center justify-center text-sm font-bold flex-shrink-0">🩺</div>
+                            <div class="bg-[#fde8e9] text-slate-700 p-2.5 rounded-r-xl rounded-bl-xl border border-[#fcd2d4] leading-relaxed max-w-[95%]">
+                                ${aiResponseText}
+                            </div>
+                        </div>
+                    `;
+                    chatBox.insertAdjacentHTML('beforeend', doctorBubble);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                    // Play natural sound audio using Gemini TTS (Fallback to Web Speech if any error occurs)
+                    await speakViaGeminiTTS(aiResponseText);
+                }
+
+            } catch (err) {
+                console.error("AI Error:", err);
+                loadingIndicator.classList.add('hidden');
+                showCustomToast("❌ ไม่สามารถดึงคำตอบจาก AI ได้ชั่วคราว");
+            }
+        }
+
+        function askPresetQuestion(text) {
+            askGeminiDoctor(text);
+        }
+
+        function sendUserQuestion() {
+            const inputEl = document.getElementById('customUserQuestion');
+            const q = inputEl.value.trim();
+            if (q) {
+                askGeminiDoctor(q);
+                inputEl.value = "";
+            }
+        }
+    </script>
+
+    <script>
+        // High Quality AI Blessing Card Maker via Imagen 4.0 Model
+        async function generateBlessingCard(cardStylePrompt) {
+            const apiKey = document.getElementById('geminiApiKey').value.trim();
+            const loader = document.getElementById('aiImageLoading');
+            const resultBox = document.getElementById('aiImageResultContainer');
+            const outputImg = document.getElementById('aiResultImage');
+
+            resultBox.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            // Fallback to beautiful mock card if API Key is not found
+            if (!apiKey) {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    // Mock cute senior card
+                    outputImg.src = "https://placehold.co/400x400/fff7ed/ea580c?text=👵+Healthy+Blessing+Card";
+                    resultBox.classList.remove('hidden');
+                    
+                    // Award bonus points for using AI card builder!
+                    userState.points += 100;
+                    renderState();
+                    showCustomToast("🎉 สร้างการ์ดอวยพรเสร็จสิ้น! (จำลองจากระบบ) คุณได้รับแต้มบวกเพิ่ม +100 แต้มค่ะ");
+                    speakThai("สร้างการ์ดอวยพรเพื่อสุขภาพสำเร็จแล้วค่ะ คุณยายได้รับคะแนนความคิดสร้างสรรค์เพิ่มร้อยคะแนนค่ะ");
+                }, 2000);
+                return;
+            }
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+            const finalPrompt = `A cute watercolor warm greeting card for a Thai senior. It displays ${cardStylePrompt}. Soft light, colorful pastel, clean lines, heartwarming, loving feel. Highly aesthetic.`;
+
+            const payload = {
+                instances: { prompt: finalPrompt },
+                parameters: { "sampleCount": 1 }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("Imagen generation failed");
+
+                const result = await response.json();
+                const base64Bytes = result.predictions?.[0]?.bytesBase64Encoded;
+
+                if (base64Bytes) {
+                    loader.classList.add('hidden');
+                    outputImg.src = `data:image/png;base64,${base64Bytes}`;
+                    resultBox.classList.remove('hidden');
+                    
+                    // Award points
+                    userState.points += 100;
+                    renderState();
+                    showCustomToast("🎉 สำเร็จ! AI ดีไซน์และวาดรูปอวยพรแบบเสร็จสมบูรณ์ให้คุณยายแล้วค่ะ (+100 แต้ม)");
+                    speakThai("วาดภาพการ์ดอวยพรอัจฉริยะเสร็จแล้วค่ะ สวยงามมากเลยนะคะ");
+                } else {
+                    throw new Error("No image data decoded");
+                }
+
+            } catch (err) {
+                console.error("Imagen error:", err);
+                loader.classList.add('hidden');
+                showCustomToast("❌ วาดภาพไม่สำเร็จ กำลังสร้างการ์ดอุปมาอวยพรรูปวาดแทนค่ะ");
+                
+                // Fallback rendering
+                outputImg.src = "https://placehold.co/400x400/fff7ed/ea580c?text=👵+Somsri+Healthy+Card";
+                resultBox.classList.remove('hidden');
+            }
+        }
+
+        function shareCardToLine() {
+            showCustomToast("🔗 ส่งการ์ดสุขภาพดีพร้อมแต้มสะสมปัจจุบันของคุณยายเข้ากลุ่ม LINE 'ครอบครัวอบอุ่น' สำเร็จแล้วค่ะ!");
+            speakThai("ส่งสติกเกอร์การ์ดอวยพรรักและห่วงใยให้ลูกหลานเรียบร้อยแล้วค่ะ");
+        }
+    </script>
+
+    <script>
+        // Page load initialization
+        window.onload = function() {
+            renderState();
+            speakThai("สวัสดีค่ะคุณยายสมศรี วันนี้สะสมคะแนนได้ 3,420 คะแนนแล้วค่ะ เดินไปแล้ว 7,240 ก้าว รักษาสุขภาพ แล้วทำภารกิจรักษาสุขภาพต่อไปน่ะค่ะ");
+        };
+    </script>
+</body>
+</html>
