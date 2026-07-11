@@ -88,12 +88,18 @@
         .ai-pulse {
             animation: pulse-ring 2s infinite ease-in-out;
         }
+    
+        /* iOS Text Overflow & Flexbox Fixes */
+        .flex-1 min-w-0 { min-width: 0 !important; }
+        button { white-space: normal !important; word-wrap: break-word !important; overflow-wrap: break-word !important; }
+        p, span, h1, h2, h3, h4, h5, h6, div { word-wrap: break-word; overflow-wrap: break-word; }
+        .max-w-\[95\%\] { min-width: 0 !important; }
     </style>
 </head>
 <body class="text-slate-800 break-words leading-snug" id="mainBody">
 
     <!-- App Container representing a premium mobile-tablet display nested nicely on desktop, but fully responsive on mobile devices -->
-    <div class="max-w-md mx-auto min-h-screen bg-[#F6F8FC] shadow-2xl flex flex-col relative pb-32 overflow-x-hidden">
+    <div class="w-full max-w-md mx-auto min-h-screen bg-[#F6F8FC] shadow-2xl flex flex-col relative pb-32 overflow-x-hidden">
         
         <!-- Top Accessibility & Navigation Header -->
         <header class="bg-[#EC2127] text-white p-4 sticky top-0 z-40 shadow-md">
@@ -227,7 +233,7 @@
         </script>
 
         <!-- Main Content Area where different tabs load dynamically -->
-        <main class="flex-1 p-4 pb-12" id="viewContainer">
+        <main class="flex-1 min-w-0 p-4 pb-12" id="viewContainer">
             
             <!-- ================= VIEW 1: HOME PAGE ================= -->
             <section id="homeView" class="space-y-4">
@@ -293,7 +299,7 @@
                     <div class="bg-amber-100 text-amber-600 p-2 rounded-full flex items-center justify-center animate-bounce">
                         <i class="fas fa-pills text-lg"></i>
                     </div>
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-0">
                         <p class="font-bold text-[#9A3412] text-sm">ยังไม่ได้บันทึกการทานยาเย็นวันนี้!</p>
                         <p class="text-sm text-[#C2410C] mt-0.5">กดปุ่มเพื่อบันทึกและรับแต้มสะสมทันทีค่ะ</p>
                     </div>
@@ -460,7 +466,7 @@
                     <div class="w-12 h-12 bg-[#EC2127]/20 text-[#EC2127] rounded-full flex items-center justify-center text-2xl ai-pulse border border-[#EC2127]/30">
                         🩺
                     </div>
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-0">
                         <h2 class="text-base font-bold">ศูนย์ผู้ช่วย AI "หมออุ่นใจ"</h2>
                         <p class="text-xs text-slate-300">ปรึกษาสุขภาพ ยา โภชนาการ และการนอนด้วยเสียงและข้อความ</p>
                     </div>
@@ -468,7 +474,7 @@
 
                 <!-- Chat history and visual panel -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col min-h-[280px] h-auto max-h-[500px]">
-                    <div class="flex-1 overflow-y-auto space-y-3 p-1 text-xs" id="aiChatBox">
+                    <div class="flex-1 min-w-0 overflow-y-auto space-y-3 p-1 text-xs" id="aiChatBox">
                         <!-- Initial Doctor Greeting Card -->
                         <div class="flex items-start gap-2">
                             <div class="w-8 h-8 rounded-full bg-[#fcd2d4] text-[#b8171e] flex items-center justify-center text-sm font-bold flex-shrink-0">🩺</div>
@@ -554,10 +560,10 @@
                     </div>
                     
                     <div class="flex gap-2">
-                        <button onclick="generateBlessingCard('การ์ดคุณยายใส่ผ้าคลุมฮีโร่ สุขภาพดี ชูกำปั้น การ์ตูน 3 มิติสีสันสดใสพาสเทล พร้อมคำว่า สุขภาพดีมีสุข')" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 px-2 rounded-xl text-xs btn-senior shadow">
+                        <button onclick="generateBlessingCard('การ์ดคุณยายใส่ผ้าคลุมฮีโร่ สุขภาพดี ชูกำปั้น การ์ตูน 3 มิติสีสันสดใสพาสเทล พร้อมคำว่า สุขภาพดีมีสุข')" class="flex-1 min-w-0 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 px-2 rounded-xl text-xs btn-senior shadow">
                             🌸 การ์ดคุณยายสตรอง
                         </button>
-                        <button onclick="generateBlessingCard('การ์ดอวยพรวันเสาร์น่ารักๆ มีลายดอกไม้โบตั๋นสวยงาม สไตล์พาสเทลสีเหลืองสดใส พร้อมคำว่า สุขกายสบายใจ')" class="flex-1 bg-[#EAB308] hover:bg-yellow-600 text-white font-bold py-1.5 px-2 rounded-xl text-xs btn-senior shadow">
+                        <button onclick="generateBlessingCard('การ์ดอวยพรวันเสาร์น่ารักๆ มีลายดอกไม้โบตั๋นสวยงาม สไตล์พาสเทลสีเหลืองสดใส พร้อมคำว่า สุขกายสบายใจ')" class="flex-1 min-w-0 bg-[#EAB308] hover:bg-yellow-600 text-white font-bold py-1.5 px-2 rounded-xl text-xs btn-senior shadow">
                             🌼 การ์ดดอกไม้สวยงาม
                         </button>
                     </div>
@@ -624,7 +630,7 @@
                         <div class="w-16 h-16 bg-rose-50 rounded-xl flex items-center justify-center text-3xl border border-rose-100">
                             👁️
                         </div>
-                        <div class="flex-1">
+                        <div class="flex-1 min-w-0">
                             <h4 class="font-bold text-slate-800 text-sm leading-snug">คูปองตรวจโรคตาและต้อกระจกฟรี</h4>
                             <p class="text-xs text-slate-500 mt-1">ใช้ตรวจฟรี ณ โรงพยาบาลพาร์ทเนอร์</p>
                             <div class="flex items-center justify-between mt-3">
@@ -641,7 +647,7 @@
                         <div class="w-16 h-16 bg-emerald-50 rounded-xl flex items-center justify-center text-3xl border border-emerald-100">
                             💸
                         </div>
-                        <div class="flex-1">
+                        <div class="flex-1 min-w-0">
                             <h4 class="font-bold text-slate-800 text-sm leading-snug">โอนเงินเข้า TrueMoney 20 บาท</h4>
                             <p class="text-xs text-slate-500 mt-1">เงินโอนเข้าบัญชีเบอร์ที่ผูกไว้ภายในวันถัดไป</p>
                             <div class="flex items-center justify-between mt-3">
@@ -776,7 +782,7 @@
                 </div>
 
                 <!-- Input area & scan screen -->
-                <div class="my-4 flex-1 bg-slate-950 rounded-2xl relative border-2 border-dashed border-blue-500 flex flex-col items-center justify-center overflow-hidden p-4">
+                <div class="my-4 flex-1 min-w-0 bg-slate-950 rounded-2xl relative border-2 border-dashed border-blue-500 flex flex-col items-center justify-center overflow-hidden p-4">
                     <!-- Scanner Laser animation effect -->
                     <div id="scanLaser" class="hidden absolute w-full h-1 bg-[#EC2127] top-1/4 left-0 animate-bounce"></div>
                     
@@ -848,24 +854,24 @@
 
         <!-- Bottom Tab Navigation (Ref: IMG_2758) -->
         <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-4 px-6 flex justify-between items-center gap-2 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-            <button onclick="changeTab('home')" id="tab-home" class="flex flex-col items-center justify-center flex-1 text-[#EC2127] transition-colors">
+            <button onclick="changeTab('home')" id="tab-home" class="flex flex-col items-center justify-center flex-1 min-w-0 text-[#EC2127] transition-colors">
                 <i class="fas fa-home text-2xl mb-1"></i>
                 
             </button>
-            <button onclick="changeTab('missions')" id="tab-missions" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors">
+            <button onclick="changeTab('missions')" id="tab-missions" class="flex flex-col items-center justify-center flex-1 min-w-0 text-slate-400 hover:text-slate-600 transition-colors">
                 <i class="fas fa-trophy text-2xl mb-1"></i>
                 
             </button>
-            <button onclick="changeTab('aiDoctor')" id="tab-aiDoctor" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors relative">
+            <button onclick="changeTab('aiDoctor')" id="tab-aiDoctor" class="flex flex-col items-center justify-center flex-1 min-w-0 text-slate-400 hover:text-slate-600 transition-colors relative">
                 <span class="absolute -top-1 right-3 bg-rose-500 text-white font-bold text-xs px-1.5 rounded-full scale-75 border-2 border-white">AI</span>
                 <i class="fas fa-user-md text-2xl mb-1"></i>
                 
             </button>
-            <button onclick="changeTab('health')" id="tab-health" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors">
+            <button onclick="changeTab('health')" id="tab-health" class="flex flex-col items-center justify-center flex-1 min-w-0 text-slate-400 hover:text-slate-600 transition-colors">
                 <i class="fas fa-heartbeat text-2xl mb-1"></i>
                 
             </button>
-            <button onclick="changeTab('rewards')" id="tab-rewards" class="flex flex-col items-center justify-center flex-1 text-slate-400 hover:text-slate-600 transition-colors">
+            <button onclick="changeTab('rewards')" id="tab-rewards" class="flex flex-col items-center justify-center flex-1 min-w-0 text-slate-400 hover:text-slate-600 transition-colors">
                 <i class="fas fa-gift text-2xl mb-1"></i>
                 
             </button>
@@ -874,7 +880,7 @@
         <!-- Custom Elder Toast Alert Banner -->
         <div id="customToast" class="hidden fixed bottom-28 left-4 right-4 z-50 bg-slate-900/95 text-white p-3.5 rounded-xl shadow-xl flex items-center gap-2 animate-fade-in border border-slate-700">
             <span class="text-lg">💡</span>
-            <p class="text-xs font-bold flex-1" id="toastMessage">แจ้งเตือนข้อมูล</p>
+            <p class="text-xs font-bold flex-1 min-w-0" id="toastMessage">แจ้งเตือนข้อมูล</p>
             <button onclick="document.getElementById('customToast').classList.add('hidden')" class="text-slate-400 font-bold text-xs">✕</button>
         </div>
 
