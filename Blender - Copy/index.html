@@ -116,10 +116,10 @@
                 </div>
                 <!-- Accessibility Controls (Font Resizer & Voice Assist Indicator) -->
                 <div class="flex items-center gap-2">
-                    <button onclick="changeFontSize('small')" class="bg-[#b8171e] hover:bg-[#8f1217] text-xs font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ลดขนาดอักษร">ก-</button>
+                    <button onclick="changeFontSize('small')" class="bg-[#b8171e] text-xs font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ลดขนาดอักษร">ก-</button>
                     <button onclick="changeFontSize('normal')" class="bg-white text-[#EC2127] text-sm font-bold py-1 px-3 rounded-full btn-senior" id="fontNormalBtn" title="อักษรปกติ">ก</button>
-                    <button onclick="changeFontSize('large')" class="bg-[#b8171e] hover:bg-[#8f1217] text-base font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ขยายอักษร">ก+</button>
-                    <button onclick="changeFontSize('xlarge')" class="bg-[#b8171e] hover:bg-[#8f1217] text-lg font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ขยายอักษรมาก">ก++</button>
+                    <button onclick="changeFontSize('large')" class="bg-[#b8171e] text-base font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ขยายอักษร">ก+</button>
+                    <button onclick="changeFontSize('xlarge')" class="bg-[#b8171e] text-lg font-bold py-1 px-2.5 rounded-full btn-senior text-white" title="ขยายอักษรมาก">ก++</button>
                     <button onclick="triggerVoiceGreeting()" class="bg-[#10B981] hover:bg-[#059669] text-white p-2 rounded-full ml-1 btn-senior flex items-center justify-center animate-pulse" title="ฟังเสียงพูดแนะนำ">
                         <i class="fas fa-volume-up text-sm"></i>
                     </button>
@@ -183,8 +183,10 @@
                 const body = document.documentElement;
                 body.classList.remove('size-normal', 'size-large', 'size-xlarge', 'size-xxlarge');
                 
-                // Reset active styling
+                // Reset all font buttons to inactive style
                 document.querySelectorAll('[title="ลดขนาดอักษร"], [title="อักษรปกติ"], [title="ขยายอักษร"], [title="ขยายอักษรมาก"]').forEach(btn => {
+                    btn.style.backgroundColor = '';
+                    btn.style.color = '';
                     btn.classList.remove('bg-white', 'text-[#EC2127]');
                     btn.classList.add('bg-[#b8171e]', 'text-white');
                 });
@@ -199,7 +201,7 @@
                     body.classList.add('size-xxlarge');
                 }
                 
-                // Highlight the correct button
+                // Highlight the selected button as white immediately
                 let activeBtn;
                 if (size === 'small') activeBtn = document.querySelector('[title="ลดขนาดอักษร"]');
                 if (size === 'normal') activeBtn = document.getElementById('fontNormalBtn');
@@ -209,6 +211,9 @@
                 if (activeBtn) {
                     activeBtn.classList.remove('bg-[#b8171e]', 'text-white');
                     activeBtn.classList.add('bg-white', 'text-[#EC2127]');
+                    // Force white immediately (bypasses any hover/transition)
+                    activeBtn.style.backgroundColor = '#ffffff';
+                    activeBtn.style.color = '#EC2127';
                 }
             }
 
@@ -632,10 +637,10 @@
                     <!-- Reward Item 1 -->
                     <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex gap-3.5 relative overflow-hidden">
                         <div class="absolute top-0 right-0 bg-rose-500 text-white font-bold text-sm px-2 py-1 rounded-bl-xl">🌟</div>
-                        <div class="w-16 h-16 bg-rose-50 rounded-xl flex items-center justify-center text-3xl border border-rose-100">
+                        <div class="w-16 h-16 bg-rose-50 rounded-xl flex items-center justify-center text-3xl border border-rose-100 flex-shrink-0">
                             👁️
                         </div>
-                        <div class="flex-1 min-w-0">
+                        <div class="flex-1 min-w-0 pr-8">
                             <h4 class="font-bold text-slate-800 text-sm leading-snug">คูปองตรวจโรคตาและต้อกระจกฟรี</h4>
                             <p class="text-xs text-slate-500 mt-1">ใช้ตรวจฟรี ณ โรงพยาบาลพาร์ทเนอร์</p>
                             <div class="flex items-center justify-between mt-3">
