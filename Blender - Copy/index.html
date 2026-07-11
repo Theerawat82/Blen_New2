@@ -62,9 +62,14 @@
         /* Tap targets feedback */
         .btn-senior {
             transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
         }
         .btn-senior:active {
             transform: scale(0.95);
+        }
+        /* Fix iOS dark overlay on button tap - force colors to stay consistent */
+        button {
+            -webkit-tap-highlight-color: transparent;
         }
         /* Custom scrollbar for visual cleanliness */
         ::-webkit-scrollbar {
@@ -374,9 +379,9 @@
 
                     <!-- Family Steps Accumulation Progress -->
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-3">
-                        <div class="flex justify-between text-sm font-bold mb-1.5">
-                            <span class="text-slate-600">ก้าวสะสมทั้งบ้านตอนนี้:</span>
-                            <span class="text-[#EC2127]" id="familyTotalDisplay">18,640 / 50,000 ก้าว</span>
+                        <div class="flex flex-col font-bold mb-1.5 gap-0.5 overflow-hidden">
+                            <span class="text-slate-600 text-sm block w-full overflow-hidden" style="word-break:break-word;overflow-wrap:break-word;">ก้าวสะสมทั้งบ้านตอนนี้:</span>
+                            <span class="text-[#EC2127] text-sm block text-right w-full overflow-hidden" id="familyTotalDisplay" style="word-break:break-word;overflow-wrap:break-word;">18,640 / 50,000 ก้าว</span>
                         </div>
                         <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden border border-slate-300">
                             <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-full rounded-full transition-all duration-500" id="familyProgressBar" style="width: 37.28%"></div>
